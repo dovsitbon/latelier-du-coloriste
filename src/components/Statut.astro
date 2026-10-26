@@ -1,0 +1,14 @@
+---
+// Pastille « Ouvert maintenant / Fermé », calculée côté client (fuseau Europe/Paris) dans Base.astro.
+interface Props { clair?: boolean }
+const { clair = false } = Astro.props;
+---
+<p class:list={['statut inline-flex items-center gap-2.5 text-[.98rem] font-semibold', clair ? 'text-atelier' : 'text-encre']} data-statut>
+  <span class="point" aria-hidden="true"></span>
+  <span data-statut-texte>Mercredi au samedi, 10h à 20h</span>
+</p>
+<style>
+  .point { flex: none; width: .7rem; height: .7rem; border-radius: 50%; background: var(--color-perle); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-perle) 35%, transparent); }
+  [data-ouvert='oui'] .point { background: #2F7A4A; box-shadow: 0 0 0 3px rgb(47 122 74 / .25); }
+  [data-ouvert='non'] .point { background: #A5532A; box-shadow: 0 0 0 3px rgb(165 83 42 / .25); }
+</style>

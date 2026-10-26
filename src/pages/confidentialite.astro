@@ -1,0 +1,20 @@
+---
+import PageTexte from '../components/PageTexte.astro';
+import { SITE } from '../data/site';
+---
+<PageTexte title="Politique de confidentialité | L'Atelier du Coloriste" description="Politique de confidentialité du site de L'Atelier du Coloriste à Montmorency : aucun cookie, aucun traceur, aucune donnée collectée par le site." h1="Politique de confidentialité">
+  <h2>Ce que le site collecte</h2>
+  <p>Rien. Le site de {SITE.nom} ne contient ni formulaire, ni outil de mesure d'audience, ni publicité, ni cookie. Aucune donnée personnelle n'est enregistrée lorsque vous le consultez.</p>
+
+  <h2>Prendre rendez-vous</h2>
+  <p>Les boutons « Appeler » et « SMS » ouvrent l'application de téléphone ou de messages de votre appareil. Votre numéro n'est transmis au salon que si vous appelez ou envoyez un message. Les informations échangées servent uniquement à organiser votre rendez-vous.</p>
+
+  <h2>Carte Google</h2>
+  <p>La carte n'est chargée que si vous cliquez sur « Afficher la carte Google ». Google peut alors déposer des cookies et collecter des données selon sa propre <a href="https://policies.google.com/privacy?hl=fr" target="_blank" rel="noopener">politique de confidentialité</a>. Sans ce clic, aucune connexion n'est faite vers Google.</p>
+
+  <h2>Hébergement</h2>
+  <p>Le site est hébergé par Vercel Inc., qui peut enregistrer des journaux techniques (adresse IP, date de la visite) pour assurer la sécurité et le bon fonctionnement du service.</p>
+
+  <h2>Vos droits</h2>
+  <p>Conformément au RGPD, vous pouvez demander l'accès, la rectification ou la suppression de vos données en contactant le salon au <a href={`tel:${SITE.telLien}`}>{SITE.telAffiche}</a> ou par e-mail : <span class="ac">[À CONFIRMER]</span>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+</PageTexte>

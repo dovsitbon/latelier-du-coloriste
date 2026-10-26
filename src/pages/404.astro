@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Page introuvable | L'Atelier du Coloriste" description="Cette page n'existe pas. Retrouvez L'Atelier du Coloriste, Barbara coloriste à Montmorency, sur la page d'accueil." noindex>
+  <section class="wrap py-20 md:py-28 grid grid-cols-1 gap-10 md:grid-cols-[auto_minmax(0,1fr)] md:items-center">
+    <svg class="w-28 md:w-36 h-auto" viewBox="0 0 100 240" aria-hidden="true">
+      <rect x="20" y="0" width="60" height="34" rx="5" fill="#fff" stroke="#D8D3CA" />
+      <circle cx="50" cy="12" r="5" fill="none" stroke="#2A2724" stroke-width="2" />
+      <path d="M30 34 H70 C72 100 66 170 50 240 C 34 170 28 100 30 34Z" fill="none" stroke="#B9B7B3" stroke-width="2" stroke-dasharray="6 6" />
+    </svg>
+    <div class="max-w-[36rem]">
+      <p class="repere"><span class="pastille" style="--t:#B9B7B3"></span><b>404</b> Teinte introuvable</p>
+      <h1 class="mt-4 text-[2.6rem] md:text-[3.6rem]">Cette mèche manque au nuancier</h1>
+      <p class="mt-5 text-[1.1rem]">La page demandée n'existe pas, ou plus. Revenez à l'accueil, ou appelez directement le salon pour prendre rendez-vous.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-plein">Revenir à l'accueil</a>
+        <a href={`tel:${SITE.telLien}`} class="btn btn-ligne">Appeler le {SITE.telAffiche}</a>
+      </div>
+    </div>
+  </section>
+</Base>

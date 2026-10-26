@@ -1,0 +1,12 @@
+{
+  "_note": "Liste et tarifs à confirmer avec Barbara. Mettre le prix dans 'tarif' (ex. 'à partir de 80 €') ; laisser null pour afficher [À CONFIRMER].",
+  "prestations": [
+    { "nom": "Balayage", "teinte": "#C99A4B", "texte": "Des éclaircies posées à main levée, là où la lumière tomberait naturellement.", "tarif": null },
+    { "nom": "Ombré", "teinte": "#A5532A", "texte": "Une racine qui reste proche de votre couleur, des longueurs qui s'éclairent progressivement.", "tarif": null },
+    { "nom": "Coloration", "teinte": "#6B4428", "texte": "Une couleur uniforme, de la racine aux pointes, choisie avec vous selon votre carnation.", "tarif": null },
+    { "nom": "Patine", "teinte": "#B9B7B3", "texte": "Pour corriger un reflet, raviver une couleur ou neutraliser un jaune après un éclaircissement.", "tarif": null },
+    { "nom": "Gris et blanc assumés", "teinte": "#D9D7D3", "texte": "Accompagner la transition vers vos cheveux blancs plutôt que de les cacher.", "tarif": null },
+    { "nom": "Rattrapage couleur", "teinte": "#3E2618", "texte": "Reprendre une couleur maison ou une nuance inégale. Voir la fiche plus bas.", "tarif": null, "lien": "#rattrapage" },
+    { "nom": "Coupe", "teinte": "#1E2430", "texte": "Barbara coupe aussi, pour que la forme serve la couleur.", "tarif": null }
+  ]
+}

@@ -1,0 +1,314 @@
+---
+import Base from '../layouts/Base.astro';
+import Nuancier from '../components/Nuancier.astro';
+import Statut from '../components/Statut.astro';
+import Horaires from '../components/Horaires.astro';
+import CarteFacade from '../components/CarteFacade.astro';
+import { SITE, AVIS, TEINTES } from '../data/site';
+import data from '../data/prestations.json';
+
+const T = Object.fromEntries(TEINTES.map((t) => [t.id, t]));
+
+const faq = [
+  { q: 'Faut-il prendre rendez-vous ?', r: `Oui. Le salon reçoit uniquement sur rendez-vous, il n'y a pas de passage sans réservation. Appelez ou envoyez un SMS au ${SITE.telAffiche}.` },
+  { q: 'Peut-on payer par carte bancaire ?', r: "Non. L'Atelier du Coloriste accepte uniquement les espèces et les chèques." },
+  { q: 'Quels sont les horaires ?', r: 'Du mercredi au samedi, de 10h à 20h. Le salon est fermé le dimanche, le lundi et le mardi.' },
+  { q: 'Barbara peut-elle rattraper une couleur faite à la maison ?', r: "Oui, c'est une de ses spécialités : couleurs maison ratées, nuances inégales, reflets non voulus. Tout commence par un diagnostic au salon." },
+  { q: 'Le salon est-il accessible ?', r: "L'entrée, le parking, les places et les toilettes sont accessibles en fauteuil roulant. Le salon est équipé d'une boucle magnétique pour les personnes malentendantes." },
+];
+
+const jsonFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+};
+
+// Bandes de la mèche «&nbsp;avant&nbsp;» (couleur maison inégale) pour la fiche de restauration.
+const bandesAvant = ['#8E6040', '#C9733F', '#A5532A', '#D8A15C', '#6B4428', '#C47A3E', '#E0B270'];
+---
+<Base
+  title="L'Atelier du Coloriste, Barbara coloriste à Montmorency (95)"
+  description="Barbara, coloriste à Montmorency (Val-d'Oise) : balayage, patine, gris assumé, rattrapage de couleurs ratées. 4,9/5 sur 73 avis. Sur RDV, mer.–sam. 10h–20h."
+  jsonld={[jsonFaq]}
+>
+  <!-- Accueil : titre, note, rendez-vous, puis le nuancier qui sert de navigation -->
+  <section class="wrap pt-6 md:pt-12" aria-labelledby="titre">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-[1.35fr_1fr] lg:items-end">
+      <div>
+        <h1 id="titre" class="text-[3.1rem] sm:text-[4.4rem] lg:text-[6.1rem] leading-[.95] tracking-[-0.02em]">Barbara, coloriste à Montmorency</h1>
+        <p class="mt-6 max-w-[34rem] text-[1.15rem] md:text-[1.25rem] leading-relaxed text-encre-2">Des couleurs naturelles et lumineuses, des colorations ratées remises d'aplomb, et un cheveu qu'on protège avant tout. Au 1 rue de l'Église, à côté de l'église.</p>
+      </div>
+      <div class="lg:pb-3">
+        <p class="flex items-baseline gap-3">
+          <span class="font-titre text-[3.4rem] leading-none">{SITE.note}</span>
+          <span class="text-[1.05rem]">sur 5, <a href="#avis" class="underline underline-offset-4">{SITE.nbAvis} avis Google</a></span>
+        </p>
+        <p class="mt-4 font-semibold text-[1.1rem]">Sur rendez-vous uniquement.</p>
+        <p class="text-encre-2">Appelez ou envoyez un SMS pour réserver votre créneau.</p>
+        <div class="mt-4 flex flex-wrap gap-2.5">
+          <a href={`tel:${SITE.telLien}`} class="btn btn-plein">Appeler le {SITE.telAffiche}</a>
+          <a href={SITE.smsLien} class="btn btn-ligne">Envoyer un SMS</a>
+        </div>
+        <div class="mt-5 flex flex-col gap-1.5">
+          <Statut />
+          <p class="text-[.98rem]"><a href="#paiement" class="underline underline-offset-4 decoration-cuivre">Paiement en espèces ou par chèque uniquement</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 md:mt-16">
+      <Nuancier />
+    </div>
+  </section>
+
+  <!-- Barbara -->
+  <section id="barbara" class="wrap pt-24 md:pt-36" aria-labelledby="t-barbara">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-16 items-start">
+      <figure class="photo aspect-[4/5] rounded-[3px]" style="--t:#E2BE7C">
+        <figcaption><strong>Photo à prendre</strong>Portrait de Barbara au travail, pinceau en main, lumière du jour latérale.</figcaption>
+      </figure>
+      <div class="md:pt-10">
+        <p class="repere"><span class="pastille" style={`--t:${T.barbara.hex}`}></span><b>{T.barbara.code}</b> {T.barbara.nom}</p>
+        <h2 id="t-barbara" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Elle écoute, elle conseille, et parfois elle dit non</h2>
+        <div class="mt-7 space-y-4 text-[1.1rem] max-w-[36rem]">
+          <p>Barbara commence par vous écouter : la couleur que vous avez en tête, celle que vous portez aujourd'hui, ce que vos cheveux ont déjà subi.</p>
+          <p>Si une envie risque d'abîmer la fibre, elle le dit franchement et propose une autre voie pour y arriver. Le but : un résultat naturel et lumineux, sur un cheveu qui reste en bonne santé.</p>
+          <p>Certaines clientes viennent depuis 8 ans, d'autres depuis plus de 10.</p>
+        </div>
+        <blockquote class="mt-9 border-l-[3px] pl-5 max-w-[34rem]" style={`border-color:${T.barbara.hex}`}>
+          <p class="font-titre text-[1.45rem] md:text-[1.7rem] leading-snug">«&nbsp;{AVIS[1]}&nbsp;»</p>
+          <footer class="mt-2 text-[.95rem] text-encre-2">Avis Google</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les couleurs -->
+  <section id="couleurs" class="wrap pt-24 md:pt-36" aria-labelledby="t-couleurs">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+      <div class="lg:sticky lg:top-8 self-start">
+        <p class="repere"><span class="pastille" style={`--t:${T.couleurs.hex}`}></span><b>{T.couleurs.code}</b> {T.couleurs.nom}</p>
+        <h2 id="t-couleurs" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Les couleurs</h2>
+        <p class="mt-5 text-[1.1rem] max-w-[28rem]">Chaque couleur se décide avec vous, après un diagnostic de vos cheveux. Barbara coupe aussi.</p>
+        <p class="mt-4 text-[.98rem] text-encre-2">Liste et tarifs : <span class="ac">[À CONFIRMER]</span></p>
+      </div>
+      <ul class="border-t border-encre">
+        {data.prestations.map((p) => (
+          <li class="grid grid-cols-[2.2rem_minmax(0,1fr)] sm:grid-cols-[2.6rem_minmax(0,1fr)_auto] gap-x-5 gap-y-2 py-6 border-b border-filet">
+            <span class="echantillon" style={`--t:${p.teinte}`} aria-hidden="true"></span>
+            <div>
+              <h3 class="text-[1.6rem] md:text-[1.9rem]">{p.lien ? <a href={p.lien} class="hover:underline underline-offset-4">{p.nom}</a> : p.nom}</h3>
+              <p class="mt-1.5 text-encre-2 max-w-[42ch]">{p.texte}</p>
+            </div>
+            <p class="col-start-2 sm:col-start-3 sm:text-right sm:pt-2 text-[.98rem] whitespace-nowrap">{p.tarif ? p.tarif : <span class="ac">Tarif [À CONFIRMER]</span>}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Rattrapage couleur : la fiche de restauration -->
+  <section id="rattrapage" class="mt-24 md:mt-36 bg-chocolat text-atelier" aria-labelledby="t-rattrapage">
+    <div class="wrap py-20 md:py-28 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 items-start">
+      <div>
+        <p class="repere !text-[#D9CBBE]"><span class="pastille" style={`--t:${T.rattrapage.clair}`}></span><b class="!text-atelier">{T.rattrapage.code}</b> {T.rattrapage.nom}</p>
+        <h2 id="t-rattrapage" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Rattrapage couleur</h2>
+        <p class="mt-6 text-[1.12rem] text-[#EDE4DA] max-w-[32rem]">Une couleur faite à la maison, un reflet orangé qui ne part pas, des longueurs plus foncées que les racines : Barbara reprend le travail comme on restaure un tableau, par étapes, sans brusquer la matière.</p>
+        <blockquote class="mt-9 border-l-[3px] border-[#C9733F] pl-5 max-w-[30rem]">
+          <p class="font-titre text-[1.4rem] md:text-[1.6rem] leading-snug">«&nbsp;{AVIS[2]}&nbsp;»</p>
+          <footer class="mt-2 text-[.95rem] text-[#D9CBBE]">Avis Google</footer>
+        </blockquote>
+        <a href={`tel:${SITE.telLien}`} class="btn btn-clair mt-10">Prendre rendez-vous pour un diagnostic</a>
+      </div>
+
+      <article class="fiche bg-atelier text-encre rounded-[2px] p-6 md:p-10" aria-labelledby="t-fiche">
+        <header class="flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-encre pb-4">
+          <h3 id="t-fiche" class="text-[1.7rem] md:text-[2rem]">Fiche de restauration</h3>
+          <p class="text-[.95rem] text-encre-2">Œuvre : votre couleur</p>
+        </header>
+
+        <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 md:gap-x-10 items-end pt-6">
+          <svg class="w-[7.5rem] md:w-[9.5rem] h-auto" viewBox="0 0 160 220" role="img" aria-labelledby="t-avantapres">
+            <title id="t-avantapres">Deux mèches : à gauche, une couleur inégale en bandes de tons différents ; à droite, la même mèche après restauration, d'une seule nuance châtain lumineuse.</title>
+            <defs>
+              <clipPath id="m1"><path d="M8 0 H64 C66 70 62 140 44 220 C 26 140 6 70 8 0Z" /></clipPath>
+              <clipPath id="m2"><path d="M96 0 H152 C154 70 150 140 132 220 C 114 140 94 70 96 0Z" /></clipPath>
+              <linearGradient id="propre" x1="0" x2="1"><stop offset="0" stop-color="#4C2F1B" /><stop offset=".5" stop-color="#8E6040" /><stop offset="1" stop-color="#4C2F1B" /></linearGradient>
+            </defs>
+            <g clip-path="url(#m1)">
+              {bandesAvant.map((c, i) => <rect x="0" y={i * 32 - 4} width="80" height="36" fill={c} transform={`rotate(${(i % 2 ? 4 : -3)} 40 ${i * 32})`} />)}
+            </g>
+            <rect x="96" y="0" width="56" height="220" fill="url(#propre)" clip-path="url(#m2)" />
+            <g clip-path="url(#m2)" stroke="#B08460" stroke-width=".8" opacity=".55">
+              <path d="M104 0 Q110 110 126 220M114 0 Q118 110 130 220M124 0 Q126 110 133 220M134 0 Q134 110 136 220M144 0 Q140 110 139 220" fill="none" />
+            </g>
+          </svg>
+          <dl class="champs text-[1rem]">
+            <div><dt>Constat</dt><dd>Nuances inégales, reflets non voulus, couleur maison ou ratée ailleurs.</dd></div>
+            <div><dt>Objectif</dt><dd>Une couleur homogène, naturelle, sur un cheveu préservé.</dd></div>
+          </dl>
+        </div>
+
+        <h4 class="mt-9 font-semibold text-[1.05rem]">Comment ça se passe</h4>
+        <ol class="etapes mt-3">
+          <li><span><b>Le constat, ensemble.</b> Vous racontez ce qui a été fait : produits, dates, essais. Rien de gênant, c'est ce qui guide la suite.</span></li>
+          <li><span><b>Le diagnostic.</b> Barbara regarde la fibre et la répartition de la couleur, mèche par mèche.</span></li>
+          <li><span><b>Le plan de restauration.</b> Elle vous dit ce qui est possible tout de suite, ce qui demandera du temps, et ce qu'elle déconseille.</span></li>
+          <li><span><b>Les séances.</b> Selon l'état du cheveu, une ou plusieurs séances. <span class="ac">[À CONFIRMER : nombre et espacement des séances]</span></span></li>
+        </ol>
+        <p class="mt-6 pt-4 border-t border-filet text-[.95rem] text-encre-2">Durée et tarif d'un rattrapage : <span class="ac">[À CONFIRMER]</span></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Le rituel -->
+  <section id="rituel" class="wrap pt-24 md:pt-36" aria-labelledby="t-rituel">
+    <div class="max-w-[46rem]">
+      <p class="repere"><span class="pastille" style={`--t:${T.rituel.hex}`}></span><b>{T.rituel.code}</b> {T.rituel.nom}</p>
+      <h2 id="t-rituel" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Le rituel</h2>
+      <p class="mt-5 text-[1.1rem]">Un salon cosy, décoré avec soin, où l'on prend le temps. Trois moments comptent dans chaque rendez-vous.</p>
+    </div>
+    <ol class="rituel mt-12 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+      <li>
+        <span class="num" aria-hidden="true">1</span>
+        <h3 class="text-[1.7rem]">Le diagnostic</h3>
+        <p class="mt-2 text-encre-2">Vos envies, votre historique de couleur, l'état de vos cheveux. Rien n'est posé avant.</p>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">2</span>
+        <h3 class="text-[1.7rem]">Des produits de grande qualité</h3>
+        <p class="mt-2 text-encre-2">Pour la couleur comme pour le soin. Marques utilisées : <span class="ac">[À CONFIRMER]</span></p>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">3</span>
+        <h3 class="text-[1.7rem]">Le massage du cuir chevelu</h3>
+        <p class="mt-2 text-encre-2">Celui dont les clientes parlent dans leurs avis : «&nbsp;il fait un bien fou&nbsp;».</p>
+      </li>
+    </ol>
+    <div class="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <figure class="photo aspect-[3/2] rounded-[3px]" style="--t:#D9D7D3">
+        <figcaption><strong>Photo à prendre</strong>Le salon vide, vue d'ensemble depuis l'entrée, lumière naturelle, lampes allumées.</figcaption>
+      </figure>
+      <figure class="photo aspect-[3/2] sm:aspect-auto rounded-[3px]" style="--t:#C9733F">
+        <figcaption><strong>Photo à prendre</strong>Gros plan des mains de Barbara pendant le massage du cuir chevelu, au bac.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Avis -->
+  <section id="avis" class="mt-24 md:mt-36 bg-bleute text-atelier" aria-labelledby="t-avis">
+    <div class="wrap py-20 md:py-28 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
+      <div>
+        <p class="repere !text-[#C3C8D3]"><span class="pastille" style={`--t:${T.avis.clair}`}></span><b class="!text-atelier">{T.avis.code}</b> {T.avis.nom}</p>
+        <h2 id="t-avis" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Ce qu'en disent les clientes</h2>
+        <p class="mt-8 flex items-baseline gap-3"><span class="font-titre text-[5.5rem] md:text-[7rem] leading-none">{SITE.note}</span><span class="text-[1.1rem]">sur 5</span></p>
+        <p class="mt-1 text-[1.05rem] text-[#C3C8D3]">{SITE.nbAvis} avis sur Google</p>
+        <p class="mt-6 max-w-[24rem] text-[#E3E6EC]">Dans leurs avis, on lit «&nbsp;la fée de la couleur&nbsp;», «&nbsp;une magicienne&nbsp;», «&nbsp;une artiste&nbsp;».</p>
+      </div>
+      <ul class="avis grid grid-cols-1 gap-x-10 gap-y-9 md:grid-cols-2">
+        {AVIS.map((a, i) => (
+          <li class:list={[i === 0 && 'md:col-span-2']}>
+            <blockquote>
+              <p class:list={['font-titre leading-snug', i === 0 ? 'text-[1.7rem] md:text-[2.3rem]' : 'text-[1.3rem] md:text-[1.45rem]']}>«&nbsp;{a}&nbsp;»</p>
+              <footer class="mt-3 flex items-center gap-2 text-[.95rem] text-[#C3C8D3]"><span class="pastille !w-3 !h-3" style={`--t:${TEINTES[i].clair}`}></span>Avis Google</footer>
+            </blockquote>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Infos pratiques -->
+  <section id="infos" class="pt-24 md:pt-36" aria-labelledby="t-infos">
+    <div class="wrap">
+      <p class="repere"><span class="pastille" style={`--t:${T.infos.hex}`}></span><b>{T.infos.code}</b> {T.infos.nom}</p>
+      <h2 id="t-infos" class="mt-4 text-[2.5rem] md:text-[3.6rem]">Infos pratiques</h2>
+    </div>
+
+    <div id="paiement" class="wrap mt-10">
+      <div class="paiement grid grid-cols-1 gap-6 md:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)] md:items-center bg-encre text-atelier rounded-[3px] p-6 md:p-10">
+        <svg class="w-20 md:w-24 h-auto" viewBox="0 0 96 64" role="img" aria-label="Carte bancaire barrée : la carte n'est pas acceptée">
+          <rect x="6" y="10" width="76" height="46" rx="5" fill="none" stroke="#B9B7B3" stroke-width="3" />
+          <rect x="6" y="20" width="76" height="8" fill="#B9B7B3" />
+          <path d="M4 60 L90 4" stroke="#C9733F" stroke-width="5" stroke-linecap="round" />
+        </svg>
+        <p class="font-titre text-[2.1rem] md:text-[2.8rem] leading-[1.02]">Espèces et chèques uniquement</p>
+        <p class="text-[1.05rem] text-[#DDD8D0]">Le salon ne prend pas la carte bancaire. Pensez à prévoir votre règlement avant de venir.</p>
+      </div>
+      <p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-[1.1rem]"><span class="font-semibold">Sur rendez-vous uniquement :</span> pas de passage sans réservation.</p>
+    </div>
+
+    <div class="wrap mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-12">
+      <div>
+        <h3 class="text-[1.7rem]">Horaires</h3>
+        <div class="mt-3"><Statut /></div>
+        <div class="mt-4"><Horaires /></div>
+        <p class="mt-4 text-encre-2">Ouvert jusqu'à 20h : un rendez-vous en sortant du travail, c'est possible.</p>
+      </div>
+      <div>
+        <h3 class="text-[1.7rem]">Adresse</h3>
+        <address class="not-italic mt-3 text-[1.1rem] leading-relaxed">
+          {SITE.nom}<br />{SITE.adresse.rue}<br />{SITE.adresse.cp} {SITE.adresse.ville}
+        </address>
+        <p class="mt-2 text-encre-2">Près de l'église de Montmorency.</p>
+        <p class="mt-3 text-[.95rem] text-encre-2">Le salon était auparavant 2 place de l'Église, à Soisy-sous-Montmorency. <span class="ac">[À CONFIRMER : déménagement]</span></p>
+        <div class="mt-5 flex flex-wrap gap-2.5">
+          <a href={`tel:${SITE.telLien}`} class="btn btn-plein">Appeler</a>
+          <a href={SITE.smsLien} class="btn btn-ligne">SMS</a>
+        </div>
+        <h3 class="mt-10 text-[1.7rem]">Accessibilité</h3>
+        <ul class="acces mt-3 space-y-2">
+          <li>Entrée accessible en fauteuil roulant</li>
+          <li>Parking et places accessibles en fauteuil roulant</li>
+          <li>Toilettes accessibles en fauteuil roulant</li>
+          <li><span><strong>Boucle magnétique</strong> pour les personnes malentendantes</span></li>
+        </ul>
+      </div>
+      <div class="min-h-[300px]">
+        <CarteFacade />
+      </div>
+    </div>
+
+    <div class="wrap mt-20 md:mt-28 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+      <div>
+        <h3 class="text-[1.9rem] md:text-[2.3rem]">Questions fréquentes</h3>
+        <p class="mt-3 text-encre-2 max-w-[26rem]">Clientes de Montmorency, {SITE.voisines.slice(0, 7).join(', ')} : tout ce qu'il faut savoir avant de venir.</p>
+      </div>
+      <div class="border-t border-encre">
+        {faq.map((f) => (
+          <details class="question border-b border-filet">
+            <summary class="flex items-center justify-between gap-4 min-h-[56px] py-3 cursor-pointer font-semibold text-[1.1rem]">{f.q}<span class="signe" aria-hidden="true"></span></summary>
+            <p class="pb-5 max-w-[60ch] text-encre-2">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+    <div class="h-20 md:h-28"></div>
+  </section>
+</Base>
+
+<style>
+  .echantillon { display: block; width: 100%; height: 4.4rem; background: var(--t); border-radius: 3px 3px 50% 50% / 3px 3px 22% 22%; clip-path: polygon(0 0, 100% 0, 92% 60%, 55% 100%, 45% 100%, 8% 60%); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1); }
+
+  .fiche { transform: rotate(.6deg); box-shadow: 0 18px 40px -24px rgb(0 0 0 / .6); }
+  .champs > div { padding: .75rem 0; border-bottom: 1px dashed #CFC8BC; }
+  .champs > div:first-child { border-top: 1px dashed #CFC8BC; }
+  .champs dt { font-size: .85rem; color: var(--color-encre-2); }
+  .champs dd { margin-top: .15rem; }
+  .etapes { counter-reset: e; display: grid; gap: .95rem; }
+  .etapes li { counter-increment: e; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .5rem; }
+  .etapes li::before { content: counter(e); font-family: var(--font-titre); font-size: 1.35rem; line-height: 1.2; color: var(--color-cuivre); }
+  .etapes b { font-weight: 650; }
+
+  .rituel li { border-top: 2px solid var(--color-chocolat); padding-top: 1.1rem; }
+  .rituel .num { display: block; font-family: var(--font-titre); font-size: 3.2rem; line-height: 1; color: var(--color-chocolat); margin-bottom: .7rem; }
+
+  .acces li { display: flex; gap: .7rem; align-items: baseline; }
+  .acces li::before { content: ''; flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: var(--color-perle); transform: translateY(-.1rem); }
+
+  .question summary { list-style: none; }
+  .question summary::-webkit-details-marker { display: none; }
+  .signe { position: relative; flex: none; width: 1rem; height: 1rem; }
+  .signe::before, .signe::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform .2s; }
+  .signe::after { transform: rotate(90deg); }
+  .question[open] .signe::after { transform: rotate(0deg); }
+</style>

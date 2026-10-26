@@ -1,0 +1,32 @@
+---
+import { SITE } from '../data/site';
+---
+<div class="carte relative w-full min-w-0 aspect-[4/3] lg:aspect-auto lg:h-full min-h-[300px] overflow-hidden rounded-[4px] bg-lin" data-carte>
+  <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect width="400" height="300" fill="#ECE7DD" />
+    <path d="M-20 210 C 80 190, 150 160, 210 150 S 330 120, 430 70" stroke="#FBFAF7" stroke-width="18" fill="none" />
+    <path d="M120 -10 C 150 80, 190 120, 210 150 S 240 250, 230 320" stroke="#FBFAF7" stroke-width="12" fill="none" />
+    <path d="M300 -10 L 280 320" stroke="#FBFAF7" stroke-width="8" fill="none" />
+    <circle cx="210" cy="150" r="13" fill="#161514" /><circle cx="210" cy="150" r="5" fill="#C99A4B" />
+  </svg>
+  <p class="absolute left-3 top-3 right-3 sm:right-auto bg-atelier px-3 py-1.5 text-[.92rem] rounded-[2px]">{SITE.adresseTexte}</p>
+  <div class="absolute left-3 right-3 bottom-3 flex flex-wrap gap-2">
+    <button type="button" class="btn btn-plein" data-charger-carte>Afficher la carte Google</button>
+    <a href={SITE.itineraire} class="btn btn-ligne bg-atelier" target="_blank" rel="noopener">Itinéraire</a>
+  </div>
+</div>
+<script>
+  import { SITE } from '../data/site';
+  document.querySelectorAll<HTMLElement>('[data-carte]').forEach((box) => {
+    box.querySelector('[data-charger-carte]')?.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = SITE.carte;
+      f.title = "Carte Google : L'Atelier du Coloriste, 1 rue de l'Église, Montmorency";
+      f.loading = 'lazy';
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      f.className = 'absolute inset-0 w-full h-full border-0';
+      box.replaceChildren(f);
+      f.focus();
+    });
+  });
+</script>

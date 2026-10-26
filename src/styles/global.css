@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+@import '@fontsource/gloock/400.css';
+@import '@fontsource-variable/hanken-grotesk';
+
+@theme {
+  --color-atelier: #FBFAF7;
+  --color-encre: #161514;
+  --color-encre-2: #57524C;
+  --color-miel: #C99A4B;
+  --color-cuivre: #A5532A;
+  --color-chatain: #6B4428;
+  --color-chocolat: #3E2618;
+  --color-bleute: #1E2430;
+  --color-perle: #B9B7B3;
+  --color-filet: #E4E0D8;
+  --color-lin: #F2EEE6;
+  --font-titre: 'Gloock', Georgia, 'Times New Roman', serif;
+  --font-texte: 'Hanken Grotesk Variable', 'Segoe UI', Arial, sans-serif;
+}
+
+@layer base {
+  html { background: var(--color-atelier); color: var(--color-encre); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; touch-action: manipulation; -webkit-tap-highlight-color: transparent; scroll-padding-bottom: 5.5rem; }
+  @media (min-width: 768px) { html { scroll-padding-bottom: 0; } }
+  body { font-family: var(--font-texte); font-size: 1.0625rem; line-height: 1.6; overflow-x: clip; background: var(--color-atelier); }
+  h1, h2, h3 { font-family: var(--font-titre); font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  a { color: inherit; }
+  [id] { scroll-margin-top: 1.5rem; }
+  :focus-visible { outline: 3px solid var(--color-cuivre); outline-offset: 3px; border-radius: 2px; }
+  ::selection { background: var(--color-chocolat); color: var(--color-atelier); }
+}
+
+@layer components {
+  .wrap { width: 100%; max-width: 78rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2.5rem; } }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 50px; padding: .75rem 1.35rem; font-weight: 650; font-size: 1.02rem; border: 1.5px solid var(--color-encre); border-radius: 999px; text-decoration: none; transition: background-color .18s, color .18s, border-color .18s; }
+  .btn-plein { background: var(--color-encre); color: var(--color-atelier); }
+  .btn-plein:hover { background: var(--color-chocolat); border-color: var(--color-chocolat); }
+  .btn-ligne { background: transparent; color: var(--color-encre); }
+  .btn-ligne:hover { background: var(--color-lin); }
+  .btn-clair { background: var(--color-atelier); color: var(--color-encre); border-color: var(--color-atelier); }
+  .btn-clair:hover { background: var(--color-lin); }
+  .btn-ligne-clair { background: transparent; color: var(--color-atelier); border-color: color-mix(in srgb, var(--color-atelier) 70%, transparent); }
+  .btn-ligne-clair:hover { background: color-mix(in srgb, var(--color-atelier) 12%, transparent); }
+
+  /* Pastille de teinte (échantillon de mèche) */
+  .pastille { display: inline-block; width: 1.05rem; height: 1.05rem; border-radius: 50%; background: var(--t, var(--color-miel)); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12); flex: none; }
+
+  /* En-tête de section : pastille + code teinte, puis titre */
+  .repere { display: flex; align-items: center; gap: .6rem; font-size: .95rem; color: var(--color-encre-2); }
+  .repere b { font-weight: 650; color: var(--color-encre); font-variant-numeric: tabular-nums; }
+
+  .ac { background: #FFF1B5; color: #5A4300; font-size: .82em; font-weight: 650; padding: .05em .35em; border-radius: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; overflow-wrap: break-word; font-family: var(--font-texte); letter-spacing: 0; }
+
+  /* Emplacement photo : aplat de teinte + légende du cliché attendu */
+  .photo { position: relative; display: grid; align-items: end; background: var(--t, var(--color-lin)); overflow: hidden; }
+  .photo figcaption { position: relative; margin: .75rem; padding: .55rem .75rem; background: var(--color-atelier); color: var(--color-encre); font-size: .85rem; line-height: 1.4; max-width: 30ch; border-radius: 2px; }
+  .photo figcaption strong { display: block; font-weight: 650; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
+}

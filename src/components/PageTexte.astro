@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+interface Props { title: string; description: string; h1: string; noindex?: boolean }
+const { title, description, h1, noindex } = Astro.props;
+---
+<Base title={title} description={description} noindex={noindex}>
+  <article class="wrap py-12 md:py-20">
+    <div class="max-w-3xl texte">
+      <p class="repere mb-5"><span class="pastille" style="--t:#B9B7B3"></span><b>10.1</b> Gris perle</p>
+      <h1 class="text-[2.4rem] md:text-[3.4rem] mb-10">{h1}</h1>
+      <slot />
+    </div>
+  </article>
+</Base>
+<style>
+  .texte :global(h2) { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: .7rem; }
+  .texte :global(p), .texte :global(li) { max-width: 66ch; }
+  .texte :global(p + p) { margin-top: .8rem; }
+  .texte :global(ul) { list-style: disc; padding-left: 1.25rem; }
+  .texte :global(a) { text-decoration: underline; text-underline-offset: 4px; }
+</style>
